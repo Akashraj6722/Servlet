@@ -61,7 +61,7 @@
 
         body {
 
-            background-image: url(/img/SignupPage.jpg);
+            background-image: url('SignupPage.jpg');
             background-repeat: no-repeat;
             background-position: center;
             background-size: cover;

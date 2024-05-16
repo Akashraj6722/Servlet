@@ -39,6 +39,12 @@ public class register {
 		this.pass = pass;
 	}
 	
+	public register () {
+		
+	}
+	
+	
+	
 	
 	
 
