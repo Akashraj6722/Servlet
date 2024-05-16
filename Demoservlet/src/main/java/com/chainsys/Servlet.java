@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/server")
 public class Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	Collection collection = new Collection() ;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -30,12 +30,19 @@ public class Servlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
-		String name=request.getParameter("username");
-		PrintWriter out=response.getWriter();
-		String pass =request.getParameter("pass");
 		
+		String name=request.getParameter("userName");
+		String dob =request.getParameter("dob");
+		String mail =request.getParameter("mail");
+
+		String pass =request.getParameter("pass");
+		PrintWriter out=response.getWriter();
 		out.println(name);
 		out.println(pass);
+		
+		collection.details(name ,dob,mail,pass);
+		request.setAttribute("list", collection.getData());
+		request.getRequestDispatcher("table.jsp").forward(request,response);
 	}
 
 	/**
