@@ -13,6 +13,10 @@ public class Collection {
 		
 
 		register userRegister=new register(userName, dob, mail, pass);
+//		userRegister.setName(userName);
+//		userRegister.setDob(dob);
+//		userRegister.setMail(mail);
+//		userRegister.setPass(pass);
 		
 			
 		list.add(userRegister);
@@ -23,3 +27,4 @@ public class Collection {
 	}
 
 }
+//

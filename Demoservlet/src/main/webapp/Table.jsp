@@ -6,7 +6,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>User Details</title>
+<title>User Details</title>   
+ <Style type="text/css">
+    table,th,td {
+    border:solid  black 2px;
+    border-collapse: collapse;
+    
+    }
+   
+    </Style>
+
 </head>
 <body>
     <table >
@@ -28,5 +37,7 @@
         </tr>
         <% } %>
     </table>
+    
+    
 </body>
 </html>
