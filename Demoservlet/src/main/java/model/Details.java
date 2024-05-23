@@ -1,21 +1,30 @@
-package com.chainsys;
+package model;
 
 public class Details {
 	
 	
 	String name;
-	int phone;
+	int id;
+	String phone;
 	String mail;
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	public String getMail() {
@@ -24,12 +33,14 @@ public class Details {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	public Details(String name, int phone, String mail) {
+	public Details( int id ,String name, String phone, String mail) {
 		super();
 		this.name = name;
 		this.phone = phone;
 		this.mail = mail;
+		this.id=id;
 	}
+	
 	public Details() {
 		// TODO Auto-generated constructor stub
 	}

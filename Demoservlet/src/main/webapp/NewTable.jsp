@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
     
     <%@ page import="java.util.ArrayList" %>
-    <%@ page import="com.chainsys.Details" %>
+    <%@ page import="model.Details" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<% Details details = new Details(); %>
 
 <table>
 <tr>
