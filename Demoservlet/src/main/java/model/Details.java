@@ -33,7 +33,7 @@ public class Details {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	public Details( int id ,String name, String phone, String mail) {
+	public Details( String name, String phone, String mail,int id ) {
 		super();
 		this.name = name;
 		this.phone = phone;

@@ -3,94 +3,65 @@ package util;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.Details;
 
-
-
 public class Crud {
-	
-	static ArrayList<Details> list= new ArrayList<Details>();
-	
-	public static void insert(Details details) throws ClassNotFoundException, SQLException {
-		Connection connection = ConnectUtil.getConnection();
-		
-		String insertQuery = "insert into forms values(?,?, ?,?)";
-		
-		PreparedStatement prepare = connection.prepareStatement(insertQuery);
-		prepare.setInt(1, details.getId());
-		prepare.setString(2, details.getName());
-		prepare.setString(3, details.getPhone());
-		prepare.setString(4, details.getMail());
-		
-		int rows = prepare.executeUpdate();
-		
-		System.out.println("Rows inserted : " + rows);
-	}
-	
-	
-	public static ArrayList<Details> read() throws ClassNotFoundException, SQLException {
-		
+
+    public static void insert(Details details) throws ClassNotFoundException, SQLException {
+        try (Connection connection = ConnectUtil.getConnection()) {
+            String insertQuery = "INSERT INTO forms(name1,phone1,mail1)  VALUES (?, ?, ?)";
+            PreparedStatement prepare = connection.prepareStatement(insertQuery);
+            prepare.setString(1, details.getName());
+            prepare.setString(2, details.getPhone());
+            prepare.setString(3, details.getMail());
+            int rows = prepare.executeUpdate();
+            System.out.println("Rows inserted: " + rows);
+        }
+    }
+
+    public static ArrayList<Details> read() throws ClassNotFoundException, SQLException {
+        ArrayList<Details> list = new ArrayList<>();
         Connection connection = ConnectUtil.getConnection();
+            String query = "SELECT * FROM forms";
+            PreparedStatement prepare = connection.prepareStatement(query);
+            ResultSet rs = prepare.executeQuery();
+            while (rs.next()) {
+                Details details = new Details();
+                details.setId(rs.getInt("id"));
+                details.setName(rs.getString("name1"));
+                details.setPhone(rs.getString("phone1"));
+                details.setMail(rs.getString("mail1"));
+                list.add(details);
+            }
         
-		String Query = "Select name1 ,phone1,mail1 from forms";
-		PreparedStatement prepare = connection.prepareStatement(Query);
-		
-		ResultSet rs=prepare.executeQuery();
-		while(rs.next()) {
-			Details details = new Details();
-//			details.setId(rs.getInt("id"));
-			details.setName(rs.getString("name1"));
-			details.setPhone(rs.getString("phone1"));
-			details.setMail(rs.getString("mail1"));
-			list.add(details);
+        return list;
+    }
 
-		}
-//		list.add(details);
+    public static void delete(int id) throws ClassNotFoundException, SQLException {
+        Connection connection = ConnectUtil.getConnection();
+            String query = "DELETE FROM forms WHERE id=?";
+            PreparedStatement pr = connection.prepareStatement(query);
+            pr.setInt(1, id);
+            pr.executeUpdate();
+        }
+    
 
 
-
-		return list;
-		
-		
-		
-	}
+public static void update(String name,String phone,String mail,int id)throws ClassNotFoundException, SQLException {
 	
-	
-	public static void delete(int id) throws ClassNotFoundException, SQLException {
-		
-		Connection connection =ConnectUtil.getConnection();
-		 String query="delete from forms where id=?";
-		PreparedStatement pr=connection.prepareStatement(query);
-		
-		Details details = new Details();
-		
-		pr.setInt(1,id);
-		pr.executeUpdate();
-		
-		
-		
-	}
+    Connection connection = ConnectUtil.getConnection();
+        String query = "UPDATE forms SET name1=?,phone1=?,mail1=? WHERE id=?";
+        PreparedStatement pr = connection.prepareStatement(query);
+        pr.setString(1, name);
+        pr.setString(2, phone);
+        pr.setString(3, mail);
+        pr.setInt(4, id);
+
+        pr.executeUpdate();
+    }
 }
-			
-			
-		
-		
-		
-	
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	
-
 

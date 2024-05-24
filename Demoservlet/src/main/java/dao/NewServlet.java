@@ -3,6 +3,7 @@ package dao;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,144 +14,115 @@ import javax.servlet.http.HttpServletResponse;
 import model.Details;
 import util.Crud;
 
-/**
- * Servlet implementation class NewServlet
- */
 @WebServlet("/NewServlet")
 public class NewServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	
-	Details details=new Details();
-//	ArrayList<Details> array=new ArrayList<>();
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public NewServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
-	     
-	     String choose= request.getParameter("action");
-			
-			switch(choose){
-				
-			case("delete"):
-				
-				int deleteID=Integer.parseInt(request.getParameter("deleteThis"));
-			
-			     try {
-					Crud.delete(deleteID);
-				} catch (ClassNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			     System.out.println("deleted row"+deleteID);
-					
-					
-				break;
-			case "add":
-				
-					
-			}
-			
-			request.getRequestDispatcher("FormFile.jsp").forward(request, response);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
 
-	     
-	     
-	     
-	     
-	        
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		doGet(request, response);
-		
-		String choose= request.getParameter("action");
-		
-		switch(choose){
-			
-		case("delete"):
-			
-			int deleteID=Integer.parseInt(request.getParameter("deleteThis"));
-		
-		     try {
-				Crud.delete(deleteID);
+        switch (action) {
+            case ("delete"):
+                int deleteID = Integer.parseInt(request.getParameter("clear"));
+                System.out.println(deleteID);
+                try {
+                    Crud.delete(deleteID);
+                } catch (ClassNotFoundException | SQLException e) {
+                    e.printStackTrace();
+                    // Handle error gracefully
+                }
+                
+                try {
+    				ArrayList<Details> dl=Crud.read();
+    				request.setAttribute("rs", dl);
+    			} catch (ClassNotFoundException | SQLException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+                break;
+            case("add"):
+                add(request, response);
+			try {
+				ArrayList<Details> dl=Crud.read();
+				request.setAttribute("rs", dl);
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		     System.out.println("deleted row"+deleteID);
-				
-				
-			break;
-				
-		}
-		
-		request.getRequestDispatcher("FormFile.jsp").forward(request, response);
+                break;
+                
+            case ("update"):
+            
+//          request.getRequestDispatcher("UpdateForms.jsp").forward(request, response);
 
-			
-			
-		
+            String name = request.getParameter("userName");
+            String phone = request.getParameter("phone");
+             String mail = request.getParameter("mail");
+             int id=Integer.parseInt(request.getParameter("id"));
 
-}
-	
-	protected synchronized void name(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		try {
-			
-			Crud crud = new Crud();
-			 request.setAttribute("rs",Crud.read());
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-     
-    
-     request.getRequestDispatcher("FormFile.jsp").forward(request, response);
+       
+           Details details = new Details(name,phone,mail,id);	
+           
+           try {
+               Crud.update(name, phone, mail, id);
+           } catch (ClassNotFoundException | SQLException e) {
+               e.printStackTrace();
+               
+           }
+            	
+//            request.getRequestDispatcher("forms.jsp").forward(request, response);
 
-	}
-	protected synchronized void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            	
+            try {
+				ArrayList<Details> dl=Crud.read();
+				request.setAttribute("rs", dl);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            	
+            	
+            	
+            
+            
+            	
+            default:
+               
+                break;
+        }
+        request.getRequestDispatcher("FormFile.jsp").forward(request, response);
+    }
 
-		 String name = request.getParameter("userName");
-	     String phone = request.getParameter("phone");
-	     String mail = request.getParameter("mail");
-	     
-			System.out.println(name);
+//    private void update(HttpServletRequest request, HttpServletResponse response) {
+//    	 String name = request.getParameter("userName");
+//         String phone = request.getParameter("phone");
+//          String mail = request.getParameter("mail");
+//    
+//        Details details = new Details(name,phone,mail,id);	
+//        
+//        try {
+//            Crud.update(name, phone, mail, id);
+//        } catch (ClassNotFoundException | SQLException e) {
+//            e.printStackTrace();
+//            
+//        }
+//	}
 
-	     details.setName(name);
-	     details.setPhone(phone);
-	     details.setMail(mail);
-	     
-//	     Details details=new Details(name,phone1,mail);
-//	     
-//	     array.add(details);
-//	     
-//	     request.setAttribute("values", array);
-//	     request.getRequestDispatcher("NewTable.jsp").forward(request, response);
+	private void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("userName");
+        String phone = request.getParameter("phone");
+        String mail = request.getParameter("mail");
 
-	     
-	     
-	     try {
-	    	 
-			Crud.insert(details);
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
+        Details details = new Details();
+        details.setId(0);
+        details.setName(name);
+        details.setPhone(phone);
+        details.setMail(mail);
+
+        try {
+            Crud.insert(details);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
