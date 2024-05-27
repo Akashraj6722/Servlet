@@ -13,7 +13,7 @@ public class Crud {
 
     public static void insert(Details details) throws ClassNotFoundException, SQLException {
         try (Connection connection = ConnectUtil.getConnection()) {
-            String insertQuery = "INSERT INTO forms(name1,phone1,mail1)  VALUES (?, ?, ?)";
+            String insertQuery = "INSERT INTO forms(userName,phoneNumber,email,active)  VALUES (?, ?, ?,1)";
             PreparedStatement prepare = connection.prepareStatement(insertQuery);
             prepare.setString(1, details.getName());
             prepare.setString(2, details.getPhone());
@@ -26,15 +26,16 @@ public class Crud {
     public static ArrayList<Details> read() throws ClassNotFoundException, SQLException {
         ArrayList<Details> list = new ArrayList<>();
         Connection connection = ConnectUtil.getConnection();
-            String query = "SELECT * FROM forms";
+            String query = "SELECT * FROM forms where active='1' order by userName ";
             PreparedStatement prepare = connection.prepareStatement(query);
             ResultSet rs = prepare.executeQuery();
             while (rs.next()) {
                 Details details = new Details();
                 details.setId(rs.getInt("id"));
-                details.setName(rs.getString("name1"));
-                details.setPhone(rs.getString("phone1"));
-                details.setMail(rs.getString("mail1"));
+                details.setName(rs.getString("userName"));
+                details.setPhone(rs.getString("phoneNumber"));
+                details.setMail(rs.getString("email"));
+                
                 list.add(details);
             }
         
@@ -43,7 +44,7 @@ public class Crud {
 
     public static void delete(int id) throws ClassNotFoundException, SQLException {
         Connection connection = ConnectUtil.getConnection();
-            String query = "DELETE FROM forms WHERE id=?";
+            String query = "UPDATE forms SET active='0' WHERE id=?";
             PreparedStatement pr = connection.prepareStatement(query);
             pr.setInt(1, id);
             pr.executeUpdate();
@@ -54,7 +55,7 @@ public class Crud {
 public static void update(String name,String phone,String mail,int id)throws ClassNotFoundException, SQLException {
 	
     Connection connection = ConnectUtil.getConnection();
-        String query = "UPDATE forms SET name1=?,phone1=?,mail1=? WHERE id=?";
+        String query = "UPDATE forms SET userName=?,phoneNumber=?,email=? WHERE id=?";
         PreparedStatement pr = connection.prepareStatement(query);
         pr.setString(1, name);
         pr.setString(2, phone);

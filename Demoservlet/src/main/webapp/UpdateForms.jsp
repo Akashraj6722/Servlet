@@ -16,7 +16,7 @@
           <li><input type="email"  name="mail"  required></li><br>
           
           <li><input type="hidden" name="action" value="update">
-          <input type="hidden" name="id" value= "<%= request.getParameter("id")%>">
+          <%-- <input type="hidden" name="id" value= "<%= request.getParameter("id")%>"> --%>
          <button type="submit"> Update</button></li>
                   
      </ul>

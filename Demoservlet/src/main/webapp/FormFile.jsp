@@ -90,7 +90,7 @@ ArrayList<Details> list = (ArrayList<Details>) request.getAttribute("rs");
         <input type="hidden" name="clear" value="<%= values.getId() %>">
         <button class="delete" type="submit">Delete</button>
     </form>
-              t
+              
             </td>
             
             <td>
